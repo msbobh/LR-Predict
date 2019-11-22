@@ -1,9 +1,8 @@
 Software Name as Headline
 ======
-**Software Name** is a software for things. Short description here.
+**LRPredict** Logistic Regressin Prediction routine. Dependant on Accord.net, also required a pretrained logistic regression
+learner using the same data domain as the unknow samples (to be classified).
 
-#### Screenshot
-![Screenshot software](http://url/screenshot-software.png "screenshot software")
 
 ## Download
 * [Version X.Y](https://github.com/username/sw-name/archive/master.zip)
