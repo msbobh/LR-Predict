@@ -64,12 +64,23 @@ namespace TestAccordLR
             // Convert Raw data to Jagged array
             double[][] testdata = Rawdata.ToJagged();
             int[] output1 = funcs.convetToJaggedArray(labeldata);
-            
+            string modelFname = "RegressionModel.save";
+
             // For Accord.net Logistic Regression the input data needs to be in Jagged Arrays         
             // Labels can either be int (1,0) or bools
 
-            // Load the prelearned Logistic Regression back into memeory
-            LogisticRegression regression = Serializer.Load<LogisticRegression>("RegressionModel.save");
+            // Declare a new regression of type LogisticRegressiona and then trt to Load the modle into memeory
+            LogisticRegression regression = new LogisticRegression();
+            try
+            {
+                regression = Serializer.Load<LogisticRegression>(modelFname);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error opeing model file: {0}", modelFname);
+                Console.WriteLine("Exception {0}", e);
+                System.Environment.Exit(-1);
+            }
 
             bool[] actual = regression.Decide(testdata);
             int[] predictions = funcs.BoolToInt(actual);
