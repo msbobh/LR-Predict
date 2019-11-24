@@ -5,11 +5,11 @@ learner using the same data domain as the unknow samples (to be classified).
 
 
 ## Download
-* [Version X.Y](https://github.com/username/sw-name/archive/master.zip)
+* [Version X.Y](https:https://github.com/msbobh/LR-Predict.git/archive/master.zip)
 * Other Versions
 
 ## Usage
-```$ git clone https://github.com/username/software-project.git
+```$ git clone https://github.com/msbobh/LR-Predict.git
 ...
 ```
 ## Contributors
@@ -21,7 +21,7 @@ learner using the same data domain as the unknow samples (to be classified).
 * [Transifex](https://www.transifex.com/projects/p/sw-name/)
 
 ### Third party libraries
-* see [LIBRARIES](https://github.com/username/sw-name/blob/master/LIBRARIES.md) files
+* Uses Accord.Net 
 
 ## License 
 * see [LICENSE](https://github.com/username/sw-name/blob/master/LICENSE.md) file
@@ -36,7 +36,5 @@ learner using the same data domain as the unknow samples (to be classified).
 #### Developer/Company
 * Homepage: 
 * e-mail: 
-* Twitter: [@twitterhandle](https://twitter.com/twitterhandle "twitterhandle on twitter")
-* other communication/social media
 
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=username&url=https://github.com/username/sw-name&title=sw-name&language=&tags=github&category=software) 
