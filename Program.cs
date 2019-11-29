@@ -14,30 +14,32 @@ namespace TestAccordLR
     {
         static void Main(string[] args)
         {
-            bool weightsfile = false;
+            bool modelFile = false;
             if (args.Length > 3 | args.Length < 1)
             {
+                Console.WriteLine ("Requires a previously trained and saved Model File");
                 Console.WriteLine("Usage <testfile> <label file> opt<Model File>");
                 System.Environment.Exit(-1);
                 
             }
             else if (args.Length == 3)
             {
-                weightsfile = true;
+                modelFile = true;
                 
             }
-            Console.WriteLine("Accord Logisitic Regression Prediction, requires a previously trained and saved Model File");
+            Console.WriteLine("Accord Logisitic Regression Prediction");
             string testFname = args[0];
             string labelsFname = args[1];
-            string weightsfname = null;
-            if (weightsfile)
+            string ModelFname = null;
+            if (modelFile)
             {
-                weightsfname = args[2];
+                ModelFname = args[2];
             }
             
-            // Read in the test data
+            
             double[,] Rawdata;
             double[,] labeldata;
+            // Read in the test data, validate file existence by attempting to open the files first
             try
             {
                 FileStream fs = File.Open(testFname, FileMode.Open, FileAccess.Write, FileShare.None);
@@ -46,6 +48,8 @@ namespace TestAccordLR
                 fs = File.Open(labelsFname, FileMode.Open, FileAccess.Write, FileShare.None);
                 fs.Close();
 
+                fs = File.Open(ModelFname, FileMode.Open, FileAccess.Read, FileShare.None);
+                fs.Close();
             }
             catch (Exception e)
             {
@@ -64,7 +68,11 @@ namespace TestAccordLR
             // Convert Raw data to Jagged array
             double[][] testdata = Rawdata.ToJagged();
             int[] output1 = funcs.convetToJaggedArray(labeldata);
-            string modelFname = "RegressionModel.save";
+            if (modelFile == false)
+            {
+                ModelFname = "RegressionModel.save";
+            }
+
 
             // For Accord.net Logistic Regression the input data needs to be in Jagged Arrays         
             // Labels can either be int (1,0) or bools
@@ -73,15 +81,16 @@ namespace TestAccordLR
             LogisticRegression regression = new LogisticRegression();
             try
             {
-                regression = Serializer.Load<LogisticRegression>(modelFname);
+                regression = Serializer.Load<LogisticRegression>(ModelFname);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error opeing model file: {0}", modelFname);
+                Console.WriteLine("Error opening model file: {0}", ModelFname);
                 Console.WriteLine("Exception {0}", e);
                 System.Environment.Exit(-1);
             }
-
+            Console.WriteLine("Successfully loaded model file => {0}", ModelFname);
+            double [] foo = regression.Probability(testdata);
             bool[] actual = regression.Decide(testdata);
             int[] predictions = funcs.BoolToInt(actual);
             double subtotal = 0;

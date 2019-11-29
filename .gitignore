@@ -9,3 +9,4 @@ bin/Debug/LRPredict.pdb
 .vs/obj/Debug/LRPredict.csprojAssemblyReference.cache
 .vs/
 obj/Debug/LRPredict.csprojAssemblyReference.cache
+bin/Debug/*.save
