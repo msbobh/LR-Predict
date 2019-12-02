@@ -6,6 +6,7 @@ using Accord.IO;
 using Accord.Statistics.Models.Regression.Fitting;
 using Accord.Statistics.Models.Regression;
 using Accord.Math;
+using Accord.Math.Optimization;
 
 
 namespace TestAccordLR
@@ -14,28 +15,20 @@ namespace TestAccordLR
     {
         static void Main(string[] args)
         {
-            bool modelFile = false;
+            
             if (args.Length > 3 | args.Length < 1)
             {
                 Console.WriteLine ("Requires a previously trained and saved Model File");
-                Console.WriteLine("Usage <testfile> <label file> opt<Model File>");
+                Console.WriteLine("Usage <testfile> <label file> <Model File>");
                 System.Environment.Exit(-1);
                 
             }
-            else if (args.Length == 3)
-            {
-                modelFile = true;
-                
-            }
+            
             Console.WriteLine("Accord Logisitic Regression Prediction");
             string testFname = args[0];
             string labelsFname = args[1];
-            string ModelFname = null;
-            if (modelFile)
-            {
-                ModelFname = args[2];
-            }
-            
+            string ModelFname = args[2];
+                       
             
             double[,] Rawdata;
             double[,] labeldata;
@@ -68,34 +61,51 @@ namespace TestAccordLR
             // Convert Raw data to Jagged array
             double[][] testdata = Rawdata.ToJagged();
             int[] output1 = funcs.convetToJaggedArray(labeldata);
-            if (modelFile == false)
-            {
-                ModelFname = "RegressionModel.save";
-            }
 
-
+            int [] answers = new int[labeldata.GetLength(0)];
+                        
             // For Accord.net Logistic Regression the input data needs to be in Jagged Arrays         
             // Labels can either be int (1,0) or bools
+            if (ModelFname.IndexOf ("bfgs", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                // Load a BFGS regression model
+                try
+                {
+                    MultinomialLogisticRegression mlr = Serializer.Load<MultinomialLogisticRegression>(ModelFname);
+                    answers = mlr.Decide(testdata);
+                } catch (Exception e)
+                {
+                    Console.WriteLine("Error opening model file: {0}", ModelFname);
+                    Console.WriteLine("Exception {0}", e);
+                    System.Environment.Exit(-1);
+                }
 
-            // Declare a new regression of type LogisticRegressiona and then trt to Load the modle into memeory
-            LogisticRegression regression = new LogisticRegression();
-            try
-            {
-                regression = Serializer.Load<LogisticRegression>(ModelFname);
             }
-            catch (Exception e)
+            
+            
+            else if (ModelFname.IndexOf("pcd", StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                Console.WriteLine("Error opening model file: {0}", ModelFname);
-                Console.WriteLine("Exception {0}", e);
-                System.Environment.Exit(-1);
+                LogisticRegression regression = new LogisticRegression();
+                try
+                {
+                    regression = Serializer.Load<LogisticRegression>(ModelFname);
+                    answers = funcs.BoolToInt(regression.Decide(testdata));
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error opening model file: {0}", ModelFname);
+                    Console.WriteLine("Exception {0}", e);
+                    System.Environment.Exit(-1);
+                }
+
             }
+
             Console.WriteLine("Successfully loaded model file => {0}", ModelFname);
-            double [] foo = regression.Probability(testdata);
-            bool[] actual = regression.Decide(testdata);
-            int[] predictions = funcs.BoolToInt(actual);
+            
             double subtotal = 0;
             int index = 0;
-            foreach (var result in predictions)
+            foreach (var result in answers)
             {
                 if (result == output1[index])
                 {
@@ -103,11 +113,8 @@ namespace TestAccordLR
                 }
                 index++;
             }
-            double accuracy = subtotal / predictions.Count();
-            Console.WriteLine("Predicted accuracy:{0}", Math.Round(accuracy * 100, 2));
-
-
-
+            double accuracy = subtotal / answers.Count();
+            Console.WriteLine("Predicted accuracy using model:{0} is ), {1}", ModelFname, Math.Round(accuracy * 100, 2));
         }
     }
 }
