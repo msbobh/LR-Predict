@@ -3,10 +3,8 @@ using System.IO;
 using System.Linq;
 using Functions;
 using Accord.IO;
-using Accord.Statistics.Models.Regression.Fitting;
 using Accord.Statistics.Models.Regression;
 using Accord.Math;
-using Accord.Math.Optimization;
 
 
 namespace TestAccordLR
