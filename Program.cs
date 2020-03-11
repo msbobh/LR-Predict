@@ -112,7 +112,7 @@ namespace TestAccordLR
                 index++;
             }
             double accuracy = subtotal / answers.Count();
-            Console.WriteLine("Predicted accuracy using model:{0} is ), {1}", ModelFname, Math.Round(accuracy * 100, 2));
+            Console.WriteLine("Predicted accuracy using model:{0} is, {1}", ModelFname, Math.Round(accuracy * 100, 2));
         }
     }
 }
