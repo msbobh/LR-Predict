@@ -22,7 +22,7 @@ namespace TestAccordLR
                 
             }
             
-            Console.WriteLine("Accord Logisitic Regression Prediction");
+            Console.WriteLine("Logisitic Regression Prediction\n");
             string testFname = args[0];
             string labelsFname = args[1];
             string ModelFname = args[2];
