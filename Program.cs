@@ -14,7 +14,7 @@ namespace TestAccordLR
         static void Main(string[] args)
         {
             
-            if (args.Length > 3 | args.Length < 1)
+            if (args.Length > 3 | args.Length < 1 | args.Length < 3)
             {
                 Console.WriteLine ("Requires a previously trained and saved Model File");
                 Console.WriteLine("Usage <testfile> <label file> <Model File>");
