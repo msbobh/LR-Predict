@@ -10,3 +10,4 @@ bin/Debug/LRPredict.pdb
 .vs/
 obj/Debug/LRPredict.csprojAssemblyReference.cache
 bin/Debug/*.save
+LRPredict.csproj.user
