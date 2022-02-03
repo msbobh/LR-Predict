@@ -11,3 +11,5 @@ bin/Debug/LRPredict.pdb
 obj/Debug/LRPredict.csprojAssemblyReference.cache
 bin/Debug/*.save
 LRPredict.csproj.user
+obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+obj/Debug/build.force
